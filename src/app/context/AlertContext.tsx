@@ -5,22 +5,23 @@ import {
   useState,
   useContext,
   useRef,
-  ReactNode,
   useCallback,
   useEffect,
+  ReactNode,
 } from "react";
 
 type AlertState = {
-  open: boolean;
+  open: boolean;//when u use the function automaticly will open 
   message: string;
-  severity: AlertColor;
+  severity: AlertColor; //color of alert ==> success(green) , info (blue), warning (orange) and error (red)
 };
 
 type AlertContextType = {
   alert: AlertState;
   setAlert: React.Dispatch<React.SetStateAction<AlertState>>;
-  showAlert: (message: string, severity?: AlertColor) => void;
+  showAlert: (message: string, severity?: AlertColor) => void;// use like this ==> : const {showAlert}=useAlertShowHide(); if(true){showAlert("message","color of alert")} else {showAlert("error message or anything else","error")}
 };
+
 
 const AlertShowHideContext = createContext<AlertContextType | undefined>(
   undefined
@@ -31,15 +32,16 @@ export const AlertShowHideProvider = ({
 }: {
   children: ReactNode;
 }) => {
+
   const [alert, setAlert] = useState<AlertState>({
     open: false,
     message: "",
-    severity: "success",
+    severity: "success",//default value
   });
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Memoize showAlert to prevent useEffect dependencies issues
+  // Memoize showAlert to prevent useEffect dependencies issues ==> this code from claude
   const showAlert = useCallback(
     (message: string, severity: AlertColor = "success") => {
       if (timeoutRef.current) {

@@ -11,6 +11,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { CircularProgress, Box } from "@mui/material";
 import { EditTaskData } from "@/utils/EditTaskData";
 import { useAlertShowHide } from "./AlertContext";
+//بشكل عام الاشي سهل الصعوبة تكمن في انك تعرف ايش ال تايب و كيف تستخدمها بالشكل الصحيح
 
 interface TaskData {
   title: string;
@@ -19,18 +20,25 @@ interface TaskData {
 
 interface EditTaskDialogContextType {
   open: boolean;
-  openDialog: (id: number, taskData: TaskData) => void;
+  openDialog: (id: number, taskData: TaskData) => void; //this what we use when u want use the costom hook ==> :
+  // const { openDialog } = useEditTaskDialog();
+  //example :
+  //    openDialog(task.id, {
+  //   title: task.title,
+  //   description: task.description
+  // });
+
   closeDialog: () => void;
 }
 
 // Create and export the context
-export const EditTaskDialogContext = createContext<EditTaskDialogContextType>({
+const EditTaskDialogContext = createContext<EditTaskDialogContextType>({
   open: false,
   openDialog: () => {},
   closeDialog: () => {},
 });
 
-// Custom hook to use the context
+// Custom hook to use the context , فش فيها اجتهاد
 export const useEditTaskDialog = () => {
   const context = useContext(EditTaskDialogContext);
   if (!context) {
@@ -67,9 +75,9 @@ export default function EditTaskDialogProvider({
   // Close dialog and reset state
   const closeDialog = useCallback(() => {
     setOpen(false);
-    setTaskData({ title: "", description: "" });
-    setErrors({});
-    setId(0);
+    setTaskData({ title: "", description: "" }); //u can remove this
+    setErrors({}); // u can remove this too
+    setId(0); //u can remove this too
   }, []);
 
   // Validate form data
